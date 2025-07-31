@@ -9,6 +9,7 @@ import SwiftUI
 // MARK: - View
 struct HomePage: View {
     @EnvironmentObject var viewModel: BasicSetupViewModel
+    @ObservedObject var transactionData = TransactionData() // Use shared data
     @State private var cardOffsetX: CGFloat = 0
     @State private var cardOffsetY: CGFloat = 0
     @State private var goToSetup = false
@@ -32,10 +33,10 @@ struct HomePage: View {
 
                     ScrollView {
                         VStack(spacing: 10) {
-                            ForEach(transactions.prefix(4)) { transaction in
-                                TransactionRow(transaction: transaction)
-                            }
-                        }
+                                            ForEach(transactionData.transactions.prefix(4)) { transaction in
+                                                TransactionRow(transaction: transaction)
+                                            }
+                                        }
                         .padding()
                     }
                     .frame(width: 320, height: 310)
@@ -149,66 +150,6 @@ struct HomePage: View {
 // MARK: - ViewModel
 class HomePageViewModel: ObservableObject {
     // Not used yet
-}
-
-// MARK: - Transaction Model
-struct Transaction: Identifiable {
-    let id = UUID()
-    let amount: Double
-    let description: String
-    let date: String
-}
-
-// MARK: - Sample Data
-let transactions: [Transaction] = [
-    Transaction(amount: 368.66, description: "إعانة مالية", date: "2025-08-01"),
-    Transaction(amount: -400.00, description: "أبل باي ", date: "2025-08-01"),
-    Transaction(amount: -10.4, description: "أبل باي ", date: "2025-08-01"),
-    Transaction(amount: -73.0, description:"أبل باي ", date: "2025-08-01"),
-    Transaction(amount: 129.0, description: "أبل باي ", date: "2025-08-02")
-]
-
-// MARK: - Transaction Row View
-struct TransactionRow: View {
-    var transaction: Transaction
-
-    // Custom purple color (hex: #130138)
-    let customPurple = Color(red: 19/255, green: 1/255, blue: 56/255)
-
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(transaction.description)
-                    .font(.headline)
-                    .foregroundColor(customPurple)
-
-                Text(transaction.date)
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-            }
-
-            Spacer()
-
-            Text(String(format: "%.2f ر.س", abs(transaction.amount)))
-                .font(.headline)
-                .foregroundColor(transaction.amount < 0 ? customPurple : .green)
-
-            ZStack {
-                Circle()
-                    .fill(transaction.amount < 0 ? Color.gray.opacity(0.2) : Color.green.opacity(0.2))
-                    .frame(width: 40, height: 40)
-
-                Image(systemName: transaction.amount < 0 ? "arrow.right" : "arrow.left")
-                    .foregroundColor(transaction.amount < 0 ? customPurple : .green)
-            }
-            .padding(.leading, 10)
-        }
-        .padding(.horizontal)
-        .padding(.vertical, 5)
-        .background(Color.white)
-        .cornerRadius(8)
-        .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
-    }
 }
 
 // MARK: - Preview
