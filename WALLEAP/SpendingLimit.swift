@@ -81,7 +81,7 @@ struct SpendingLimit: View {
                     .padding(.top, 12)
 
                     NavigationLink(
-                        destination: SpendingChartView(),
+                        destination: Bank_Transaction(),
                         isActive: $navigateToChart
                     ) {
                         EmptyView()
@@ -103,6 +103,12 @@ struct SpendingLimit: View {
     }
 
     var selectedLimitValue: Double? {
+        // إذا فيه مبلغ مخصص مكتوب وصحيح، خله هو الأولوية
+        if let custom = Double(customAmount), custom > 0 {
+            return custom
+        }
+
+        // غير كذا، خذ من المقترح المحدد
         if let option = selectedOption {
             switch option {
             case 0: return 30
@@ -112,12 +118,9 @@ struct SpendingLimit: View {
             }
         }
 
-        if let custom = Double(customAmount), custom > 0 {
-            return custom
-        }
-
         return nil
     }
+
 }
 
 struct BudgetOptionView: View {

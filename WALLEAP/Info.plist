@@ -4,5 +4,7 @@
 <dict>
 	<key>NSUserNotificationAlertStyle</key>
 	<string>Alert</string>
+	<key>PKMerchantCapabilities</key>
+	<string>3DS</string>
 </dict>
 </plist>

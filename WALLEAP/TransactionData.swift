@@ -38,7 +38,6 @@ class TransactionData: ObservableObject {
     ]
 }
 
-// MARK: - Transaction Row View
 struct TransactionRow: View {
     var transaction: Transaction
 
@@ -56,7 +55,7 @@ struct TransactionRow: View {
                 Text(String(format: "%.2f", abs(transaction.amount)))
                     .font(.headline)
                     .foregroundColor(transaction.amount < 0 ? .red : .green)
-                Image("riyadhSymbol") // Adjust asset name
+                Image("riyadhSymbol")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 50, height: 50)
