@@ -1,10 +1,5 @@
-//
-//  BasicSetupView.swift
-//  WALLEAP
-//
-//  Created by maya alasiri  on 06/02/1447 AH.
-//import SwiftUI
 import SwiftUI
+
 // MARK: - View
 struct BasicSetupView: View {
     @StateObject private var viewModel = BasicSetupViewModel()
@@ -13,21 +8,21 @@ struct BasicSetupView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
-                Text("Welcome")
+                Text("مرحبا")
                     .font(.title)
                     .bold()
 
-                TextField("Card Owner Name", text: $viewModel.cardOwner)
+                TextField("اسم صاحب البطاقة", text: $viewModel.cardOwner)
                     .textFieldStyle(.roundedBorder)
 
-                TextField("Caregiver Name", text: $viewModel.caregiverName)
+                TextField("اسم ولي الامر", text: $viewModel.caregiverName)
                     .textFieldStyle(.roundedBorder)
 
-                TextField("Current Money", text: $viewModel.money)
+                TextField("الرصيد الحالي", text: $viewModel.money)
                     .keyboardType(.numberPad)
                     .textFieldStyle(.roundedBorder)
 
-                Button("Done") {
+                Button("حفظ") {
                     goToHome = true
                 }
                 .buttonStyle(.borderedProminent)
@@ -54,5 +49,3 @@ class BasicSetupViewModel: ObservableObject {
 #Preview {
     BasicSetupView()
 }
-
-
