@@ -2,19 +2,21 @@ import SwiftUI
 import UserNotifications
 
 @main
-
 struct WALLEAPApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
+
     init() {
-           if UserDefaults.standard.object(forKey: "virtualBalance") == nil {
-               UserDefaults.standard.set(100.0, forKey: "virtualBalance") // رصيد تجريبي
-           }
-       }
-    
+        if UserDefaults.standard.object(forKey: "virtualBalance") == nil {
+            UserDefaults.standard.set(100.0, forKey: "virtualBalance") // رصيد تجريبي
+        }
+    }
+
     var body: some Scene {
         WindowGroup {
-            ApplePayTestView()
+            NavigationStack {
+                HomePage()
+                    .environmentObject(BasicSetupViewModel())
+            }
         }
     }
 }
@@ -40,3 +42,4 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
 }
+

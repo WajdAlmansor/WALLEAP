@@ -19,9 +19,9 @@ struct SpendingLimit: View {
                 )
                 .ignoresSafeArea()
 
-                Image("Sign_out_squre")
+                Image("BackArrow")
                     .resizable()
-                    .frame(width: 26, height: 26)
+                    .frame(width: 60, height: 60)
                     .padding(.leading, 20)
                     .padding(.top, 50)
 

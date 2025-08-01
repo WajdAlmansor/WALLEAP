@@ -9,20 +9,19 @@ import SwiftUI
 // MARK: - View
 struct HomePage: View {
     @EnvironmentObject var viewModel: BasicSetupViewModel
-    @ObservedObject var transactionData = TransactionData() // Use shared data
+    @ObservedObject var transactionData = TransactionData()
     @State private var cardOffsetX: CGFloat = 0
     @State private var cardOffsetY: CGFloat = 0
     @State private var goToSetup = false
+    @State private var goToSpendingLimit = false // ✅ حالة تنقل جديدة
 
     var body: some View {
         ZStack {
-            // 🔹 Background
             Image("background main")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
 
-            // 🔹 White rectangle fixed at bottom with transactions inside
             VStack {
                 Spacer()
                 ZStack {
@@ -33,32 +32,28 @@ struct HomePage: View {
 
                     ScrollView {
                         VStack(spacing: 10) {
-                                            ForEach(transactionData.transactions.prefix(4)) { transaction in
-                                                TransactionRow(transaction: transaction)
-                                            }
-                                        }
+                            ForEach(transactionData.transactions.prefix(4)) { transaction in
+                                TransactionRow(transaction: transaction)
+                            }
+                        }
                         .padding()
                     }
                     .frame(width: 320, height: 310)
 
-                    // 🔹 Show all button at bottom-left
                     Image("show all button")
                         .resizable()
-                        .frame(width: 53, height: 15.81) // Adjust to your asset size
+                        .frame(width: 53, height: 15.81)
                         .offset(x: -130, y: 153)
                 }
                 .offset(y: -60)
             }
 
-            // 🔹 Word image (absolute position, not affected)
             Image("word")
                 .resizable()
                 .frame(width: 103, height: 20)
                 .offset(x: 109, y: 0)
 
-            // 🔹 Main VStack content
             VStack {
-                // Top Bar
                 HStack {
                     HStack(spacing: 10) {
                         Button {
@@ -94,13 +89,19 @@ struct HomePage: View {
                 }
                 .padding(.top, 20)
 
-                // Navigation
-                NavigationLink("", destination: BasicSetupView(), isActive: $goToSetup)
-                    .hidden()
+                // ✅ NavigationLinks
+                NavigationLink(destination: BasicSetupView(), isActive: $goToSetup) {
+                    EmptyView()
+                }
+                .hidden()
+
+                NavigationLink(destination: SpendingLimitView(), isActive: $goToSpendingLimit) {
+                    EmptyView()
+                }
+                .hidden()
 
                 Spacer()
 
-                // Card
                 ZStack {
                     Image("card")
                         .resizable()
@@ -116,9 +117,11 @@ struct HomePage: View {
                 }
                 .padding(.bottom, 480)
 
-                // Buttons
+                // ✅ Buttons with action
                 HStack(spacing: 16) {
-                    Button(action: {}) {
+                    Button(action: {
+                        goToSpendingLimit = true // ← عند الضغط ننتقل للصفحة
+                    }) {
                         Image("daily limit button")
                             .resizable()
                             .frame(width: 95, height: 86)
@@ -144,6 +147,7 @@ struct HomePage: View {
                 Spacer()
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
